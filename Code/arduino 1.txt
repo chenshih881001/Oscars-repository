@@ -1,0 +1,121 @@
+#include <Servo.h>
+#include <Wire.h>
+
+#define PassISR_input 2     //interrupt signal input
+#define SmokeISR_input 3    //interrupt signal input
+#define ISR_output 4        //interrupt signal output
+#define PassISR_output 5    //interrupt signal output
+#define servoPin 6			//servo
+#define PIR 11              //PIR Sensor
+#define LED 12              //LED(Camera state)
+#define Piezo 13            //Piezo Buzzer
+#define CameraIdle 1
+#define CameraRecord 2
+#define UnlockDoor 3
+#define Intruder 4
+
+Servo servo1;
+int state = CameraIdle;
+int motion;
+int smoke;
+int SafeGasDensity = 320;
+byte signal;
+
+/************ interrupt function  *************/
+void interrupt()
+{
+    smoke = analogRead(A0);
+    if(smoke>SafeGasDensity)
+        digitalWrite(ISR_output,HIGH);
+    else
+    {
+        digitalWrite(ISR_output,LOW);
+        noTone(Piezo);
+    }
+}
+/************** main function  ****************/
+void setup()
+{
+  	pinMode(PassISR_input, INPUT);
+  	pinMode(PassISR_output, OUTPUT);
+  	pinMode(SmokeISR_input, INPUT);
+    pinMode(ISR_output, OUTPUT);
+  	pinMode(PIR, INPUT);
+    pinMode(LED, OUTPUT);
+    pinMode(Piezo, OUTPUT);
+    servo1.attach(servoPin);
+  	servo1.write(0);                        // servo initial position
+  	Wire.begin(4);                          // join i2c bus with address #4
+    Wire.onReceive(receiveEvent);           // register event
+    attachInterrupt(digitalPinToInterrupt(SmokeISR_input), Smoke_ISR, HIGH);    //set ISR
+    attachInterrupt(digitalPinToInterrupt(PassISR_input), Pass_ISR, HIGH);
+    Serial.begin(9600);
+}
+
+void loop()
+{
+  switch(state)
+    {
+        case CameraIdle:
+        {
+            digitalWrite(LED, LOW);            //Camera not recording
+            motion = digitalRead(PIR);         //check motion
+            if(motion == HIGH)
+                state = CameraRecord;
+            else
+                state = CameraIdle;
+            interrupt();                       //check smoke
+            break;
+        }
+
+        case CameraRecord:
+        {
+            digitalWrite(LED, HIGH);           //Camera starts recording
+            motion = digitalRead(PIR);         //check motion
+            if(motion == LOW)
+                state = CameraIdle;
+            else
+                state = CameraIdle;
+            interrupt();                       //check smoke
+            break;
+        }
+        case UnlockDoor:
+        {
+          	servo1.write(90);
+          	delay(5000);
+          	servo1.write(0);
+          	delay(10);	
+          	state = CameraIdle;
+        }
+    	case Intruder:
+    	{
+    		tone(Piezo,700);
+     		delay(1500);
+     		noTone(Piezo);
+          	state = CameraIdle;
+          	break;
+        }
+    }
+}
+void Smoke_ISR()
+{
+    tone(Piezo,700);
+    interrupt();
+  	servo1.write(90);
+  	state = CameraIdle;
+  	//Serial.println(state);
+}
+
+void Pass_ISR()
+{
+  state = UnlockDoor;
+}
+
+void receiveEvent(int howMany)
+{
+  signal = Wire.read();
+  if(signal == 1)
+  	 digitalWrite(PassISR_output,HIGH);
+  else if(signal == 2)
+    state = Intruder;
+}
