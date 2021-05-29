@@ -1,0 +1,126 @@
+Protocol for Smart Home Project
+
+Protocol maker: Long
+
+*Date: 12.11.2020
+[Meeting]
+- Initial discussion and brainstorming.
+- Decide the outline for the ppt.
+[Objectives]
+- More research about the subject (due: 14.11.2020)
+
+*Date: 17.11.2020
+[Meeting]
+- Discuss about the content of the presentation.
+- Distribute the tasks.
+- Formatting of the slides.
+[Objectives]
+- Make the slides (due: 18.11.2020):
+	+ Architecture: Alex 
+	+ Interaction: Oscar
+	+ Remote Communication: Alex + Long
+	+ Smart Lighting: Long
+	+ Smart Security System: Choi
+	+ User Interaction: Sam
+	+ Privacy/Security Concerns: Sam + Choi
+
+*Date: 18.11.2020
+[Meeting]
+- Finalize the presentation. 
+	
+*Date: 24.11.2020
+[Meeting]
+- Create the sketch for smart home system.
+ 
+[Objectives]
+- Finalize sketch (Alex + Sam)
+- Create Class Diagram (Oscar + Choi)
+- Explain challenges and requirements (Long)
+
+*Date: 26.11.2020
+[Meeting in Lab]
+- Presentation : got feedback from professor 
+: focus on the envrionmental/circumstancial view points as to human interaction with system
+- work on scenario composition with set background.
+
+[Objective] 
+- Create Class Diagram (Long)
+- Create Use-case Diagram (Oscar)
+- Create Sequence Diagram for whole scenario (Alex, Sam)
+- Explain environmental practice and user functionality (Choi)
+
+*Date: 02.12.2020
+[Meeting] 
+- Present results and discuss.
+- Create activity diagrams (done).
+
+*Date: 08.12.2020
+[Objectives]
+- Sequence Diagrams:
+	+ 1. Smart Fridge: Choi (due 9/12/2020).
+	+ 2. Invitation scenario: Sam (due 9/12/2020).
+	+ 3. Heating/Cooling: Alex (due 9/12/2020).
+	+ 4. Gesture and voice control: Oscar (due 9/12/2020).
+	+ 5. Entertainment system: Long (due 9/12/2020).
+
+*Date: 09.12.2020
+[Meeting]
+- Discussion about possible improvements to the current design. 
+
+*Date: 10.12.2020
+[Meeting]
+- Smart Home Monitor System's State diagram (done).
+
+*Date: 11.12.2020
+[Meeting]
+- Test case for Smart Home Monitor System (done).
+
+
+*Date: 15.12.2020
+[Objectives]
+- State Machine Diagrams (due 16.12.2020): 	
+	+ Device Manager (Alex)
+	+ Security System (Oscar)
+	+ Smart Grid (Sam)
+	+ Smart Lighting (Long)
+	+ Entertainment System (Choi)
+
+*Date: 16.12.2020
+[Meeting]
+- Present results and discuss.
+
+*Date 22.12.2020
+[Objectives]
+- Implementation codes and test codes (due 3.1.2021):
+	+ Device Manager (Alex)
+	+ Security System (Oscar)
+	+ Smart Grid (Sam)
+	+ Smart Lighting (Long)
+	+ Entertainment System (Choi)
+
+*Date 03.01.2021
+[Meeting]
+- Present results and discuss.
+
+[Objectives]
+- Finalize the codes for Implementation codes (due 05.01.2021).
+- Finish test codes (due 05.01.2021).
+
+*Date 05.01.2021
+[Meeting]
+- Present results and finalize the codes. 
+
+*Date 14.01.2021
+[Objectives]
+- Create simulation with Tinkercad (due 21.01.2021).
+
+*Date 21.01.2021
+[Meeting]
+- Present simulation and discuss.
+
+[Objectives]
+- Prepare powerpoint slides for presentation (due 24.01.2021).
+
+*Date 24.01.2021
+[Meeting]
+- Present results and finalize the slides.
