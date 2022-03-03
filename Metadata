@@ -1,0 +1,70 @@
+import java.io.File;
+import com.drew.imaging.jpeg.JpegMetadataReader;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifDirectoryBase;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
+import com.drew.metadata.file.FileSystemDirectory;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class test 
+{
+    public static String getDate(Metadata metadata) 
+    {
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmmss");      //set 
+        String date0 = dtf.format(LocalDateTime.now());
+        
+        if (metadata == null) 
+        {
+            return date0;
+        }
+        
+        FileSystemDirectory fileDir = metadata.getFirstDirectoryOfType(FileSystemDirectory.class);
+        if (fileDir != null) 
+        {
+            Object o = fileDir.getObject(FileSystemDirectory.TAG_FILE_MODIFIED_DATE);
+
+            if (o != null) 
+            {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HHss");
+                try 
+                {
+                    date0 = df.format(o);
+                } 
+                catch (IllegalArgumentException e) 
+                {
+                    date0 = o.toString();
+                }
+                return date0;
+            }
+        }
+        return dtf.format(LocalDateTime.now());
+    }
+
+    public static void main(String args[]) 
+    {
+ 
+        try 																		// try-catch block to handle exceptions
+        {
+            File Pic = new File("D:\\testFolder"); 									// Create a file object
+            File[] files = Pic.listFiles(); 										// Get all the files present in the given directory
+            for (File i : files) 					
+            {
+                Metadata metadata = JpegMetadataReader.readMetadata(i);
+                String Tempdate = getDate(metadata); 							
+                String OriginalName = i.getAbsolutePath(); 							// Get the absolute path
+                if (OriginalName.indexOf(".") >= 0) {
+                    OriginalName = OriginalName.substring(0, OriginalName.lastIndexOf("."));
+                }
+                i.renameTo(new File("D:/testFolder/" + Tempdate + ".jpg")); 		// Rename
+            }
+        } 
+        
+        catch (Exception e) 
+        {
+            System.err.println(e.getMessage());
+        }
+    }
+}
