@@ -1,0 +1,42 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def Canny(frame):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    blur = cv2.GaussianBlur(gray, (5, 5), 0)
+    canny = cv2.Canny(blur, 50, 150)
+    return canny
+
+
+def LineDisplay(transformed_img, lines):
+    line_image = np.zeros_like(transformed_img)
+    if lines is not None:
+        for line in lines:
+            x1, y1, x2, y2 = line.reshape(4)
+            cv2.line(line_image, (x1, y1), (x2, y2), (255, 0, 0), 5)
+    return line_image
+
+
+top_left = (250, 380)
+top_right = (400, 380)
+buttom_left = (70, 470)
+buttom_right = (538, 470)
+#cv2.circle(frame,top_left, 5,(0,0,255), -1)
+#cv2.circle(frame,top_right, 5,(0,255,0), -1)
+#cv2.circle(frame,buttom_left, 5,(0,255,0), -1)
+#cv2.circle(frame,buttom_right, 5,(0,255,0), -1)
+frame = cv2.imread('test_img.png')
+canny_img = Canny(frame)
+Points1 = np.float32([top_left, buttom_left, top_right, buttom_right])
+Points2 = np.float32([[0, 0], [0, 480], [640, 0], [640, 480]])
+matrix = cv2.getPerspectiveTransform(Points1, Points2)
+transformed_img = cv2.warpPerspective(canny_img, matrix, (640, 480))
+lines = cv2.HoughLinesP(transformed_img, 1, np.pi/180, 100, np.array([]),minLineLength=40, maxLineGap=5)  # produce lines
+Line_img = LineDisplay(transformed_img, lines)
+
+cv2.imshow("OutPut", Line_img)
+cv2.waitKey(0)
+
+
